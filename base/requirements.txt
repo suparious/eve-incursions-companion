@@ -1,0 +1,20 @@
+# webapp libs
+Flask>=0.12.1
+Flask-Login>=0.4.0
+Flask-Migrate>=2.0.3
+sqlalchemy>=1.1.9
+
+# because simplejson is better than built in json and flask uses it
+simplejson>=3.10.0
+
+# eve online ESI lib
+esipy>=1.0.0
+
+# use MySQL database
+pymysql
+
+# use Redis
+redis
+
+# use Request Queue
+rq

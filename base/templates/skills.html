@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+{% include 'header.html' %}
+{% if not current_user.is_authenticated %}
+Welcome, guest!
+{% else %}
+
+<table style="width:100%">
+<tr>
+<td valign="Top">
+<table>
+    <tr>
+        <td valign="top"><a href="https://images.evetech.net/characters/{{ current_user.character_id }}/portrait?size=512" target="_blank" rel="noopener"><img src="https://images.evetech.net/characters/{{ current_user.character_id }}/portrait?size=64" alt="{{ current_user.character_name }}" /></a></td>
+    </tr>
+</table>
+<table>
+    <tr><td>
+        <h5>Skill Training <small>({{ skillqueue_total }})</small></h5>
+        Skill Points: <strong>{{ skills.data.total_sp }} SP </strong><br>
+        Unallocated: <strong>{{ skills.data.unallocated_sp }} SP</strong><br>
+        Currently training: <strong>Lv.{{ skillqueue_0_level }} - {{ skillqueue_0_name }}</strong><br>
+        <br>
+        <strong>Next 5 Skills in the training queue</strong>
+    </td></tr>
+    <tr><td>
+        • Lv.<strong>{{ skillqueue_1_level }}</strong> - {{ skillqueue_1_name }}<br>
+        • Lv.<strong>{{ skillqueue_2_level }}</strong> - {{ skillqueue_2_name }}<br>
+        • Lv.<strong>{{ skillqueue_3_level }}</strong> - {{ skillqueue_3_name }}<br>
+        • Lv.<strong>{{ skillqueue_4_level }}</strong> - {{ skillqueue_4_name }}<br>
+        • Lv.<strong>{{ skillqueue_5_level }}</strong> - {{ skillqueue_5_name }}<br>
+    </td></tr>
+</table>
+</td>
+<td valign="Top">
+<!-- another table can go here -->
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<td valign="top">
+<!-- another table can go here -->
+</td>
+<td td valign="top">
+<!-- another table can go here -->
+</td>
+</tr>
+</table>
+<br>
+<br>
+<hr>
+<h5>Debug Area Begin</h5>
+<small><div id="time"></div></small>
+<small>Demo Mode: <strong>Enabled</strong></small><br>
+<br><br>
+<br>
+<br><br>
+<h5>Debug Area End</h5>
+<hr>
+<br>
+
+{% endif %}
+{% include 'footer.html' %}
+{% endblock content %}

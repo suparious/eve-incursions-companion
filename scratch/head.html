@@ -1,0 +1,19 @@
+<head>
+  <meta charset="utf-8">
+  <!--[if IE]>
+  <meta http-equiv="X-UA-Compatible" content="IE=10">
+  <![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Viralby7e">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>SolidRusT Fleet Manager</title>
+  <script type="text/javascript">
+    window.onload = startInterval;
+    function startInterval() {
+        setInterval("startTime();",1000);
+    }
+    function startTime() {
+        document.getElementById('time').innerHTML = Date();  
+    }
+  </script>
+</head>

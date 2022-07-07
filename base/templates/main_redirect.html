@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+  <script language="JavaScript" type="text/javascript">
+    var url="/main";    
+    function redirect(){
+      window.location = url;
+      document.getElementById("pageInfo").innerHTML="Refreshing ESI cache state..."
+    }
+  </script>
+  {% include 'header.html' %}
+  {% if not current_user.is_authenticated %}
+  Welcome, guest!<br>
+  <br>
+  {% else %}
+  <body onload="redirect()">
+    <p id="pageInfo"></p>
+  {% endif %}
+</body>
+{% include 'footer.html' %}
+{% endblock content %}

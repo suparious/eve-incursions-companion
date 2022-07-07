@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=10">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Viralby7e">
+    <title>SolidRusT Fleet Manager</title>
+    <script type="text/javascript">
+      window.onload = startInterval;
+      function startInterval() {
+          setInterval("startTime();",1000);
+      }
+      
+      function startTime() {
+          document.getElementById('time').innerHTML = Date();  
+      }
+    </script>
+</head>
+<body>
+<table>
+    <tr>
+        <td halign="top">
+            <a href="https://www.eveonline.com/"><img src="https://images.eks.solidrust.net/logos/eve-online-logo.png" height="48" alt="EVE Online" /></a>
+        </td>
+        <td halign="top">
+            <strong>SRT Fleet Manager for EVE Online</strong><br>
+            There are currently {{ server_status.data.players }} players online.<br>
+            Tranquility (v.{{ server_status.data.server_version }})
+        </td>
+    </tr>
+</table>
+{% if not current_user.is_authenticated %}
+<a href="/sso/login">
+    <img src="https://web.ccpgamescdn.com/eveonlineassets/developers/eve-sso-login-white-small.png" alt="Log in with eveonline.com" />
+</a>
+{% else %}
+<table style="width:100%">
+<tr>
+<td valign="Top">
+<table>
+    <tr><h3><a href="https://evewho.com/character/{{ current_user.character_id }}" target="_blank" rel="noopener">{{ current_user.character_name }}</a> [<a href="https://evewho.com/corporation/{{ current_character.data.corporation_id }}" target="_blank" rel="noopener">{{ current_corporation.data.ticker }}</a>] (<a href="/sso/logout">Logout</a>)</h3></tr>
+    <tr>
+        <td valign="top"><a href="https://images.evetech.net/characters/{{ current_user.character_id }}/portrait?size=512" target="_blank" rel="noopener"><img src="https://images.evetech.net/characters/{{ current_user.character_id }}/portrait?size=64" alt="{{ current_user.character_name }}" /></a></td>
+        <td valign="top">
+            • Online: <strong>{{ online.data.online }}</strong><br>
+            • System: <strong>{{ location_solar_name.data.name }}</strong><br>
+            • Docked: <strong>{{ dock_status }}</strong><br>
+            {% if fleet_id %}
+            • In Fleet: <strong>Yes</strong><br>
+            {% else %}
+            • In Fleet: <strong>No</strong>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<table>
+    <tr><td>Birthdate: 
+    <strong><script>
+        let jsondate = "{{ current_character.data.birthday }}";
+        document.write(new Date(jsondate).toLocaleString('en-US', {hour12: false}))
+    </script></strong><br>
+    Security Status: <strong>{{ current_character.data.security_status }}</strong><br>
+    Corporation: <strong>{{current_corporation.data.name}} [{{ current_corporation.data.ticker }}]</strong>
+    </td></tr>
+    <tr><td>
+        <h3>Skills Queue ({{ skillqueue_total }})</h3>
+        Skill Points: <strong>{{ skills.data.total_sp }} SP </strong><br>
+        Unallocated: <strong>{{ skills.data.unallocated_sp }} SP</strong><br>
+        Currently training: <strong>Lv.{{ skillqueue_0_level }} - {{ skillqueue_0_name }}</strong><br>
+        <br>
+        <strong>Next 5 Skills in the training queue</strong>
+    </td></tr>
+    <tr><td>
+        • Lv.<strong>{{ skillqueue_1_level }}</strong> - {{ skillqueue_1_name }}<br>
+        • Lv.<strong>{{ skillqueue_2_level }}</strong> - {{ skillqueue_2_name }}<br>
+        • Lv.<strong>{{ skillqueue_3_level }}</strong> - {{ skillqueue_3_name }}<br>
+        • Lv.<strong>{{ skillqueue_4_level }}</strong> - {{ skillqueue_4_name }}<br>
+        • Lv.<strong>{{ skillqueue_5_level }}</strong> - {{ skillqueue_5_name }}<br>
+    </td></tr>
+</table>
+</td>
+<td valign="Top">
+<table>
+    <tr><h3>Currently flying: <a href="https://www.eveonlineships.com/eve-ship-database.php?ids={{ ship.data.ship_type_id }}" target="_blank" rel="noopener">{{ ship.data.ship_name }}</a></h3></tr>
+    <tr>
+        <td valign="top"><a href="https://images.evetech.net/types/{{ ship.data.ship_type_id }}/render?size=512" target="_blank" rel="noopener"><img src="https://images.evetech.net/types/{{ ship.data.ship_type_id }}/icon?size=64" /></a></td>
+        <td valign="top">
+            • Hull: <strong>{{ ship_type.data.name }}</strong><br>
+            • Class: <strong>{{ ship_class.data.name }}</strong><br>
+            • Role: 
+            {% if ship_type.data.name in dps %}
+            DPS (Close-Ranged DPS)
+            {% elif ship_type.data.name in sniper %}
+            SNI (Sniper / Long-Ranged DPS)
+            {% elif ship_type.data.name in ('Scimitar') %}
+            Logi (S)
+            {% elif ship_type.data.name in ('Basilisk') %}
+            Logi (B)
+            {% elif ship_type.data.name in ('Loki') %}
+            Logi (Lok)
+            {% elif ship_type.data.name in support %}
+            SUP (Fleet Support)
+            {% elif ship_type.data.name in transport %}
+            IND (Industrial / Transport)
+            {% else %}
+            UNK (Unknown Role)
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Slot</th>
+        <th>Active Implant</th>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.0 }}/icon?size=32" /></td>
+        <td>1</td>
+        <td>{{ implant_0_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.1 }}/icon?size=32" /></td>
+        <td>2</td>
+        <td>{{ implant_1_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.2 }}/icon?size=32" /></td>
+        <td>3</td>
+        <td>{{ implant_2_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.3 }}/icon?size=32" /></td>
+        <td>4</td>
+        <td>{{ implant_3_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.4 }}/icon?size=32" /></td>
+        <td>5</td>
+        <td>{{ implant_4_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.5 }}/icon?size=32" /></td>
+        <td>6</td>
+        <td>{{ implant_5_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.6 }}/icon?size=32" /></td>
+        <td>7</td>
+        <td>{{ implant_6_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.7 }}/icon?size=32" /></td>
+        <td>8</td>
+        <td>{{ implant_7_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.8 }}/icon?size=32" /></td>
+        <td>9</td>
+        <td>{{ implant_8_name.data.name }}</td>
+    </tr>
+    <tr>
+        <td><img src="https://images.evetech.net/types/{{ implants.data.9 }}/icon?size=32" /></td>
+        <td>10</td>
+        <td>{{ implant_9_name.data.name }}</td>
+    </tr>
+</table>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<td valign="top">
+
+</td>
+<td td valign="top">
+<table>
+    
+</table>
+</td>
+</tr>
+</table>
+<br>
+<br>
+<hr>
+<h3>Debug Area Begin</h3>
+<div id="time"></div>
+<br><br>
+implant set bonus: {{ implant_set_bonus }}<br>
+<br>
+
+Demo Mode Enabled
+
+<br><br>
+<h3>Debug Area End</h3>
+<hr>
+{% endif %}<br>
+<br>
+<h5>EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. has granted permission to solidrust.net to use EVE Online and all associated logos and designs for promotional and information purposes on its website but does not endorse, and is not in any way affiliated with, solidrust.net. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.</h5>
+Made by <a href="https://evewho.com/pilot/Viralby7e">Viralby7e</a> • Suparious#5638 • <a href="https://github.com/suparious/solidrust.net">GitHub</a>
+<br><br></body></html>

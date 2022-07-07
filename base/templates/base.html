@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=10">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Viralby7e">
+    <title>SolidRusT Fleet Manager</title>
+    <script type="text/javascript">
+      window.onload = startInterval;
+      function startInterval() {
+        setInterval("startTime();",1000);
+      }
+      function startTime() {
+        document.getElementById('time').innerHTML = Date();  
+      }
+    </script>
+    {% endblock head %}
+  </head>
+  {% block content %}
+  {% endblock content %}
+</html>

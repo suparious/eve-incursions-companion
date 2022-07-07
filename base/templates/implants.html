@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+{% include 'header.html' %}
+{% if not current_user.is_authenticated %}
+Welcome, guest!
+{% else %}
+
+<table>
+    <tr>
+        <th>Slot</th>
+        <th>&nbsp;</th>
+        <th>Implant</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[0].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[0].data.name }}</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[1].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[1].data.name }}</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[2].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[2].data.name }}</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[3].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[3].data.name }}</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[4].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[4].data.name }}</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[5].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[5].data.name }}</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[6].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[6].data.name }}</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[7].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[7].data.name }}</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[8].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[8].data.name }}</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td><img src="https://images.evetech.net/types/{{ implant_ids[9].data.id }}/icon?size=32" /></td>
+        <td>{{ implant_names[9].data.name }}</td>
+    </tr>
+</table>
+<br>
+<br>
+<hr>
+<h5>Debug Area Begin</h5>
+<small><div id="time"></div></small>
+<small>Demo Mode: <strong>Enabled</strong></small><br>
+<br><br>
+<br>
+<br><br>
+<h5>Debug Area End</h5>
+<hr>
+<br>
+
+{% endif %}
+{% include 'footer.html' %}
+{% endblock content %}

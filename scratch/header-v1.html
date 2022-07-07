@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!--[if IE]>
+  <meta http-equiv="X-UA-Compatible" content="IE=10">
+  <![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Viralby7e">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>SolidRusT Fleet Manager</title>
+  <script type="text/javascript">
+    window.onload = startInterval;
+    function startInterval() {
+        setInterval("startTime();",1000);
+    }
+    function startTime() {
+        document.getElementById('time').innerHTML = Date();  
+    }
+  </script>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<table>
+  <tr>
+    <td halign="top">
+      <a href="https://www.eveonline.com/"><img src="https://images.eks.solidrust.net/logos/eve-online-logo.png" height="48" alt="EVE Online" /></a>
+    </td>
+    <td halign="top">
+      <strong>SRT Fleet Manager for EVE Online</strong><br>
+      There are currently {{ server_status.data.players }} players online.<br>
+      Tranquility (v.{{ server_status.data.server_version }})
+    </td>
+  </tr>
+</table>
+{% if not current_user.is_authenticated %}
+<a href="/sso/login"><img src="https://web.ccpgamescdn.com/eveonlineassets/developers/eve-sso-login-white-small.png" alt="Log in with eveonline.com" /></a>
+{% else %}
+<h4><a href="https://evewho.com/character/{{ current_user.character_id }}" target="_blank" rel="noopener">{{ current_user.character_name }}</a> [<a href="https://evewho.com/corporation/{{ current_character.data.corporation_id }}" target="_blank" rel="noopener">{{ current_corporation.data.ticker }}</a>] (<a href="/sso/logout">Logout</a>)</h4>
+{% endif %}
+
+{%block body%}
+
+{%endblock%}
+
+<h7>EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. has granted permission to solidrust.net to use EVE Online and all associated logos and designs for promotional and information purposes on its website but does not endorse, and is not in any way affiliated with, solidrust.net. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.</h7><br>
+<br>
+Made by <a href="https://evewho.com/pilot/Viralby7e">Viralby7e</a> • Suparious#5638 • <a href="https://github.com/suparious/solidrust.net">GitHub</a>
+<br><br>
+</body>
+</html>
