@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eve-incursions
+  namespace: eve-incursions
+  labels:
+    app: eve-incursions
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eve-incursions
+  template:
+    metadata:
+      labels:
+        app: eve-incursions
+    spec:
+      containers:
+      - name: eve-incursions
+        image: suparious/eve-incursions:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+        env:
+        # Configuration from ConfigMap
+        - name: FLASK_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: FLASK_ENV
+        - name: FLASK_APP
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: FLASK_APP
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: DB_NAME
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: REDIS_PORT
+        - name: APP_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: APP_URL
+        - name: ESI_DATASOURCE
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: ESI_DATASOURCE
+        - name: ESI_SWAGGER_JSON
+          valueFrom:
+            configMapKeyRef:
+              name: eve-incursions-config
+              key: ESI_SWAGGER_JSON
+        # Secrets
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: eve-incursions-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: eve-incursions-secret
+              key: DB_PASSWORD
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: eve-incursions-secret
+              key: SECRET_KEY
+        - name: ESI_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: eve-incursions-secret
+              key: ESI_CLIENT_ID
+        - name: ESI_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: eve-incursions-secret
+              key: ESI_SECRET_KEY
+        - name: ESI_CALLBACK_URL
+          valueFrom:
+            secretKeyRef:
+              name: eve-incursions-secret
+              key: ESI_CALLBACK_URL
+        # Database connection string
+        - name: DATABASE_URL
+          value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3

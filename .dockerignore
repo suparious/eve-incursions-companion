@@ -1,0 +1,49 @@
+# Git
+.git
+.gitignore
+.gitmodules
+
+# Documentation
+*.md
+README*
+LICENSE
+
+# Development
+.vscode
+*.code-workspace
+scratch/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.log
+
+# Kubernetes and deployment
+k8s/
+*.ps1
+*.yaml
+*.yml
+
+# Config (will be provided via ConfigMap/Secret)
+config.py
+*.dist
+
+# Migrations (will be handled separately)
+base/migrations/versions/*.py
+sso/migrations/versions/*.py
+
+# Other components (deploying base only for now)
+sso/
+worker/
+implants/
+
+# IDE
+.idea/
+*.swp
+*.swo

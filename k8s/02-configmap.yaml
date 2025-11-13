@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eve-incursions-config
+  namespace: eve-incursions
+data:
+  # Flask configuration
+  FLASK_ENV: "production"
+  FLASK_APP: "base.py"
+
+  # Database configuration (using platform CNPG PostgreSQL)
+  # Note: PostgreSQL connection will use pymysql driver compatibility layer
+  DB_HOST: "postgres-rw.postgres-system.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_NAME: "eve_incursions"
+
+  # Redis configuration (for RQ workers)
+  REDIS_HOST: "redis.eve-incursions.svc.cluster.local"
+  REDIS_PORT: "6379"
+
+  # Application settings
+  APP_URL: "https://eve-incursions.lab.hq.solidrust.net"
+
+  # ESI (EVE Swagger Interface) settings
+  ESI_DATASOURCE: "tranquility"
+  ESI_SWAGGER_JSON: "https://esi.evetech.net/latest/swagger.json?datasource=tranquility"

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eve-incursions
+  labels:
+    name: eve-incursions
+    app: eve-incursions
